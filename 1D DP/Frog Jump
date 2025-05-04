@@ -51,3 +51,34 @@ class Solution {
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int frogJump(int n, int heights[]) {
+        int firstPrev = 0;
+        int secondPrev = 0;
+        for(int i = 1; i < n; i++) {
+            int left = firstPrev + Math.abs(heights[i] - heights[i-1]);
+            int right = Integer.MAX_VALUE;
+            if(i > 1) {
+                right = secondPrev + Math.abs(heights[i] - heights[i-2]);
+            }
+            int current = Math.min(left, right);
+            secondPrev = firstPrev;
+            firstPrev = current;
+        }
+        return firstPrev;
+    }
+
+}
