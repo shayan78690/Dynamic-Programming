@@ -1,0 +1,26 @@
+class Solution {
+    public int frogJump(int[] heights, int k) {
+        int n = heights.length;
+        int dp[] = new int[n+1];
+        Arrays.fill(dp, -1);
+        return func(n-1, heights, dp, k);
+    }
+
+    public int func(int idx, int heights[], int dp[], int k) {
+        if(idx == 0) {
+            return 0;
+        }
+        if(dp[idx] != -1) {
+            return dp[idx];
+        }
+        int min =  Integer.MAX_VALUE;
+        for(int i = 1; i <= k; i++) {
+            if(idx-i >= 0) {
+                int jump = func(idx-i, heights, dp, k) + Math.abs(heights[idx] - heights[idx-i]);
+                min = Math.min(min, jump);
+            }
+            
+        }
+        dp[idx] = min;
+        return dp[idx];
+    }
