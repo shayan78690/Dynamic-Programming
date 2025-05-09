@@ -1,1 +1,24 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        return func(n-1, k, arr);
+    }
+
+    public static boolean func(int idx, int k, int arr[]) {
+        if(k == 0) {
+            return true;
+        }
+        if(idx == 0) {
+            return arr[0] == k;
+        }
+
+        boolean not_take = func(idx-1, k, arr);
+        boolean take = false;
+        if(arr[idx] <= k) {
+            take = func(idx-1, k-arr[idx], arr);
+        }
+        return take || not_take;
+    }
+}
 
