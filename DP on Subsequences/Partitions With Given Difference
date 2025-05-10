@@ -1,0 +1,50 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+
+	static final int mod = 1000000007;
+	public static int countPartitions(int n, int d, int[] arr) {
+		int total_sum = 0;
+		for(int i = 0; i < n; i++) {
+			total_sum += arr[i];
+		}
+		if(total_sum - d < 0) {
+			return 0;
+		}
+		if((total_sum-d) % 2 != 0) {
+			return 0;
+		}
+		int target = (total_sum-d)/2;
+		int dp[][] = new int[n][target+1];
+		for(int row[] : dp) {
+			Arrays.fill(row, -1);
+		}
+		return func(n-1, target, arr, dp);
+	}
+
+	public static int func(int idx, int target, int arr[], int dp[][]) {
+		if(idx == 0) {
+			if(target == 0 && arr[0] == 0) {
+				return 2;
+			}
+			if(target == 0 || arr[0] == target) {
+				return 1;
+			} 
+			else {
+				return 0;
+			}
+		}
+        
+		if(dp[idx][target] != -1) {
+			return dp[idx][target];
+		}
+		int not_take = func(idx-1, target, arr, dp);
+		int take = 0;
+		if(arr[idx] <= target) {
+			take = func(idx-1, target-arr[idx], arr, dp);
+		}
+
+		dp[idx][target] = (take + not_take) % mod;
+		return dp[idx][target];
+	}
+}
