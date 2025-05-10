@@ -29,3 +29,41 @@ public class Solution {
 		return dp[idx][W];
 	}
 }
+
+
+
+
+
+
+
+
+
+class Solution {
+    static int knapsack(int W, int val[], int wt[]) {
+    int n = val.length; // n is 3
+    int dp[][] = new int[n][W + 1]; // dp is int[3][5] (indices 0 to 2 for rows, 0 to 4 for columns)
+
+    // Base Case: For the first item (idx = 0)
+    for (int w = 0; w <= W; w++) { // w goes from 0 to 4
+        if (wt[0] <= w) { // wt[0] is 4
+            dp[0][w] = val[0]; // dp[0][4] = 1
+        } else {
+            dp[0][w] = 0; // dp[0][0] to dp[0][3] will be 0
+        }
+    }
+
+    // Choice Diagram
+    for (int idx = 1; idx < n; idx++) { // idx goes from 1 to 2
+        for (int w = 0; w <= W; w++) { // w goes from 0 to 4
+            int not_pick = dp[idx - 1][w]; // Accessing dp[0][w]
+            int pick = Integer.MIN_VALUE;
+            if (wt[idx] <= w) {
+                pick = dp[idx - 1][w - wt[idx]] + val[idx]; // Accessing dp[0][w - wt[idx]]
+            }
+            dp[idx][w] = Math.max(pick, not_pick); // Assigning to dp[idx][w]
+        }
+    }
+    return dp[n - 1][W]; // Returning dp[2][4]
+
+    }
+}
