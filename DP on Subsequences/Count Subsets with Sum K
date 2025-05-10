@@ -1,0 +1,35 @@
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+
+    static final int mod = 1000000007;
+    public static int findWays(int num[], int tar) {
+        int n = num.length;
+        int dp[][] = new int[n][tar+1];
+        for(int row[] : dp) {
+            Arrays.fill(row, 0); // Initialize to 0 instead of -1 since we're adding counts
+        }
+        for(int i = 0; i < n; i++) {
+            dp[i][0] = 1; // One way to make sum 0: take no elements
+        }
+        if (num[0] <= tar) {
+            dp[0][num[0]] = 1;
+        }
+        // Handle the case where num[0] is 0, but according to problem constraints, it might vary
+        // For this code, assuming num[0] is positive as per general subset sum problem
+
+        for(int idx = 1; idx < n; idx++) {
+            for(int target = 0; target <= tar; target++) {
+                int not_take = dp[idx-1][target];
+                int take = 0;
+                if(num[idx] <= target) {
+                    take = dp[idx-1][target - num[idx]];
+                }
+                dp[idx][target] = (take + not_take) % mod;
+            }
+        }
+
+        return dp[n-1][tar];
+    }
+}
