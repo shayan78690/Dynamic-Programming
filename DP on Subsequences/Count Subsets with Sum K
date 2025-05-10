@@ -2,6 +2,54 @@ import java.util.*;
 import java.io.*;
 
 public class Solution {
+    static final int mod = 1000000007;
+    public static int findWays(int num[], int tar) {
+        int n = num.length;
+        int dp[][] = new int[n][tar+1];
+        for(int row[] : dp) {
+            Arrays.fill(row, -1);
+        }
+        return func(n-1, tar, num, dp);
+    }
+
+    public static int func(int idx, int target, int nums[], int dp[][]) {
+        if(idx == 0) {
+            if(nums[0] == 0 && target == 0) {
+                return 2;
+            }
+            if(target == nums[0] || target == 0) {
+                return 1;
+            } 
+            else {
+                return 0;
+            }
+        }
+
+        if(dp[idx][target] != -1) {
+            return dp[idx][target];
+        }
+        int not_take = func(idx-1, target, nums, dp);
+        int take = 0;
+        if(nums[idx] <= target) {
+            take = func(idx-1, target-nums[idx], nums, dp);
+        }
+        dp[idx][target] = (take + not_take) % mod;
+        return dp[idx][target];
+    }
+}
+
+
+
+
+
+
+
+
+
+import java.util.*;
+import java.io.*;
+
+public class Solution {
 
     static final int mod = 1000000007;
     public static int findWays(int num[], int tar) {
