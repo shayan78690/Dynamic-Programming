@@ -1,0 +1,1 @@
+This repository is a curated collection of common Dynamic Programming (DP) patterns and problem-solving techniques. It serves as a learning resource and reference guide for understanding and implementing DP solutions to algorithmic problems.
