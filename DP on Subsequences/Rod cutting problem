@@ -25,3 +25,42 @@ public class Solution {
 		return dp[idx][n];
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.*;
+
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		int dp[][] = new int[n][n+1];
+		for(int row[] : dp) {
+			Arrays.fill(row, -1);
+		}
+
+		for(int N = 0; N <= n; N++) {
+			dp[0][N] = N * price[0];
+		}
+		for(int idx = 1; idx < n; idx++) {
+			for(int N = 0; N <= n; N++) {
+				int not_take = dp[idx-1][N];
+				int take = Integer.MIN_VALUE;
+				int rod_length = idx+1;
+				if(rod_length <= N) {
+					take = dp[idx][N-rod_length] + price[idx];
+				}
+				dp[idx][N] = Math.max(take, not_take);
+				}
+			}
+			return dp[n-1][n];
+	}
+}
