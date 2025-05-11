@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		int dp[][] = new int[n][n+1];
+		for(int row[] : dp) {
+			Arrays.fill(row, -1);
+		}
+		return func(n-1, n, price, dp);
+	}
+	public static int func(int idx, int n, int price[], int dp[][]) {
+		if(idx == 0) {
+			return n * price[0];
+		}
+		if(dp[idx][n] != -1) {
+			return dp[idx][n];
+		}
+		int not_take = func(idx-1, n, price, dp);
+		int take = Integer.MIN_VALUE;
+		int rod_length = idx+1;
+		if(rod_length <= n) {
+			take = func(idx, n-rod_length, price, dp) + price[idx];
+		}
+		dp[idx][n] = Math.max(take, not_take);
+		return dp[idx][n];
+	}
+}
