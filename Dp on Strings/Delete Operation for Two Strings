@@ -1,0 +1,35 @@
+class Solution {
+    public int minDistance(String s, String t) {
+        int n = s.length();
+		int m = t.length();
+        int lcs = longestCommonSubsequence(s, t, n, m);
+        int del1 = n-lcs;
+        int del2 = m-lcs;
+        return del1+del2;
+    }
+
+    public int longestCommonSubsequence(String s, String t, int n, int m) {
+        int dp[][] = new int[n+1][m+1];
+		for(int row[] : dp) {
+			Arrays.fill(row, -1);
+		}
+		for(int idx2 = 0; idx2 <= m; idx2++) {
+			dp[0][idx2] = 0;
+		}
+		for(int idx1 = 0; idx1 <= n; idx1++) {
+			dp[idx1][0] = 0;
+		}
+
+		for(int idx1 = 1; idx1 <= n; idx1++) {
+			for(int idx2 = 1; idx2 <= m; idx2++) {
+				if(s.charAt(idx1-1) == t.charAt(idx2-1)) {
+					dp[idx1][idx2] = dp[idx1-1][idx2-1] + 1;
+				}
+		else {
+			dp[idx1][idx2] = Math.max(dp[idx1-1][idx2], dp[idx1][idx2-1]);
+			}	
+			}
+		}
+		return  dp[n][m];
+    }
+}
