@@ -1,0 +1,35 @@
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length;
+        int dp[][][] = new int[n+1][2][k+1];
+        for(int row[][] : dp) {
+            for(int col[] : row) {
+                Arrays.fill(col, -1);
+            }
+        }
+        return func(0, n, 1, k, prices, dp);
+    }
+    public int func(int idx, int n, int buy, int k, int prices[], int dp[][][]) {
+        if(k == 0) {
+            return 0;
+        }
+        if(idx == n) {
+            return 0;
+        }
+        if(dp[idx][buy][k] != -1) {
+            return dp[idx][buy][k];
+        }
+        int profit;
+        if(buy == 1) {
+            int buy_yes = -prices[idx] + func(idx+1, n, 0, k, prices, dp);
+            int buy_no = 0 + func(idx+1, n, 1, k, prices, dp);
+            profit = Math.max(buy_yes, buy_no);
+        } else {
+            int sell_yes = prices[idx] + func(idx+1, n, 1, k-1, prices, dp);
+            int sell_no = 0 + func(idx+1, n, 0, k, prices, dp);
+            profit = Math.max(sell_yes, sell_no);
+        }
+        dp[idx][buy][k] = profit;
+        return dp[idx][buy][k];
+    }
+}
