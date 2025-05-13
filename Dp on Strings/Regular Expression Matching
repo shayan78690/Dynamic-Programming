@@ -1,0 +1,73 @@
+import java.util.Arrays;
+
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int dp[][] = new int[s.length() + 1][p.length() + 1]; 
+        for (int row[] : dp) {
+            Arrays.fill(row, -1);
+        }
+        return func(0, 0, s, p, dp) == 1;
+    }
+
+    public int func(int i, int j, String s, String p, int dp[][]) {
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+        if (j == p.length()) {
+            return (i == s.length()) ? 1 : 0;
+        }
+        boolean match = i < s.length() && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.');
+        int ans;
+        if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
+            ans = func(i, j + 2, s, p, dp) == 1 || (match && func(i + 1, j, s, p, dp) == 1) ? 1 : 0;
+        } else if (match) {
+            ans = func(i + 1, j + 1, s, p, dp);
+        } else {
+            ans = 0;
+        }
+        dp[i][j] = ans;
+        return ans;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+    public boolean isMatch(String s, String p) {
+        return func(0, 0, s, p);
+    }
+    public boolean func(int i, int j, String s, String p) {
+        if(i >= s.length() && j >= p.length()) {
+            return true;
+        }
+        if(j >= p.length()) {
+            return false;
+        }
+
+        boolean match = i < s.length() && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.');
+        if((j+1) < p.length() && p.charAt(j+1) == '*') {
+            return func(i, j+2, s, p) || (match && func(i+1, j, s, p));
+        }
+
+        if(match) {
+            return func(i+1, j+1, s, p);
+        }
+        return false;
+    }
+}
