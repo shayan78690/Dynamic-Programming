@@ -1,4 +1,60 @@
 class Solution {
+    public int maxProfit(int K, int[] prices) {
+        int n = prices.length;
+        int dp[][][] = new int[n + 1][2][K + 1];
+        for (int row[][] : dp) {
+            for (int col[] : row) {
+                Arrays.fill(col, 0);
+            }
+        }
+
+        int profit;
+        for (int idx = n - 1; idx >= 0; idx--) {
+            for (int buy = 0; buy <= 1; buy++) {
+                for (int k = 1; k <= K; k++) {
+                    if (buy == 1) {
+                        int buy_yes = -prices[idx] + dp[idx + 1][0][k];
+                        int buy_no = 0 + dp[idx + 1][1][k];
+                        profit = Math.max(buy_yes, buy_no);
+                    } else {
+                        int sell_yes = prices[idx] + dp[idx + 1][1][k - 1];
+                        int sell_no = 0 + dp[idx + 1][0][k];
+                        profit = Math.max(sell_yes, sell_no);
+                    }
+                    dp[idx][buy][k] = profit;
+                }
+            }
+        }
+        return dp[0][1][K];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
     public int maxProfit(int k, int[] prices) {
         int n = prices.length;
         int dp[][][] = new int[n+1][2][k+1];
