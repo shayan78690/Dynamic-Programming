@@ -1,3 +1,76 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Solution {
+    public static List<Integer> printingLongestIncreasingSubsequence(int[] arr, int n) {
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        int[] hash = new int[n];
+        for (int i = 0; i < n; i++) {
+            hash[i] = i; // Initialize with their own index
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int prev = 0; prev < i; prev++) {
+                if (arr[prev] < arr[i] && 1 + dp[prev] > dp[i]) {
+                    dp[i] = 1 + dp[prev];
+                    hash[i] = prev;
+                }
+            }
+        }
+
+        int maxLength = 0;
+        int lastIndex = 0;
+        for (int i = 0; i < n; i++) {
+            if (dp[i] > maxLength) {
+                maxLength = dp[i];
+                lastIndex = i;
+            }
+        }
+
+        List<Integer> lis = new ArrayList<>();
+        lis.add(arr[lastIndex]);
+        while (hash[lastIndex] != lastIndex) {
+            lastIndex = hash[lastIndex];
+            lis.add(arr[lastIndex]);
+        }
+
+        // Reverse the list to get the correct order
+        List<Integer> reversedLis = new ArrayList<>();
+        for (int i = lis.size() - 1; i >= 0; i--) {
+            reversedLis.add(lis.get(i));
+        }
+
+        // Print the LIS
+        // for (int num : reversedLis) {
+        //     System.out.print(num + " ");
+        // }
+        // System.out.println();
+
+        return reversedLis;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
